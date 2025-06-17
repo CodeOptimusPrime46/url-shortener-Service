@@ -9,11 +9,11 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.codemonkey</groupId>
-  <artifactId>url-shortner-service</artifactId>
+  <artifactId>url-shortener-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>url-shortner-service</name>
-  <description>URL Shortner microservice project with Redis and WebFlux</description>
+  <name>url-shortener-service</name>
+  <description>URL Shortener microservice project with Redis and WebFlux</description>
 
   <modules>
     <module>common</module>
@@ -21,7 +21,7 @@
     <module>cache</module>
     <module>core</module>
     <module>api</module>
-    <module>url-shortner-microservice</module>
+    <module>url-shortener-microservice</module>
   </modules>
 
   <properties>

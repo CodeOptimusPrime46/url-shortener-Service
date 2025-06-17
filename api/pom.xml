@@ -5,14 +5,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.codemonkey</groupId>
-    <artifactId>url-shortner-service</artifactId>
+    <artifactId>url-shortener-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.codemonkey.url.shortner</groupId>
+  <groupId>com.codemonkey.url.shortener</groupId>
   <artifactId>api</artifactId>
   <name>api</name>
-  <description>API Layer for URL Shortner</description>
+  <description>API Layer for URL shortener</description>
   <packaging>jar</packaging>
 
   <dependencies>
