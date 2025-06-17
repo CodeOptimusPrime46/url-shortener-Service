@@ -15,5 +15,3 @@ spring:
       timeout: 60000
     mongodb:
       uri: mongodb://localhost:27017/urlshortener
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
