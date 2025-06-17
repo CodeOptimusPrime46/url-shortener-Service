@@ -7,6 +7,7 @@ import com.codemonkey.url.shortener.dto.exception.NoUrlFoundException;
 import com.codemonkey.url.shortener.service.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,8 @@ public class UrlController {
   @Operation(summary = "Shorten a URL", description = "Creates a shortened version of the provided long URL")
   @PostMapping("/shorten")
   @ResponseStatus(HttpStatus.CREATED)
-  public Mono<ResponseEntity<UrlResponse>> shorten(@RequestBody UrlRequest urlRequest) {
+  public Mono<ResponseEntity<UrlResponse>> shorten(@Valid @RequestBody UrlRequest urlRequest) {
+    log.debug("Received request to shorten URL: {}", urlRequest.getLongUrl());
     return urlService.shortenUrl(urlRequest)
         .map(res -> ResponseEntity
             .status(HttpStatus.CREATED)
@@ -51,7 +53,6 @@ public class UrlController {
 
   @Operation(summary = "Retrieve long URL and redirects", description = "Retrieves the original long URL for a given shortened URL and redirects to it")
   @GetMapping(value = "/{shortUrl}", produces = MediaType.APPLICATION_JSON_VALUE)
-  @ResponseStatus(HttpStatus.OK)
   public Mono<ResponseEntity<Void>> redirectToLongUrl(@PathVariable String shortUrl) {
     return urlService.getLongUrlFromCache(shortUrl)
         .switchIfEmpty(Mono.error(new NoUrlFoundException("Short URL not found: " + shortUrl)))
