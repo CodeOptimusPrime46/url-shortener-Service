@@ -84,6 +84,9 @@ A simple URL shortener service built with Java, Spring Boot, redis, and mongoDB.
       ```
       Get the original URL.
 
+## Flow
+![Flow.png](Flow.png)
+
 ## License
 
 This project is licensed under the MIT License.
