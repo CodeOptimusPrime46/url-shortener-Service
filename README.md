@@ -1,22 +1,24 @@
 # URL Shortener Service
 
-A simple URL shortener service built with Java, Spring Boot, redis, and mongoDB.
+A high-performance, reactive URL shortener built using Java 17, Spring WebFlux, Redis, and MongoDB.
+Designed with modular architecture, cache persistence considerations, and production-grade practices.
 
 ## Features
 
-- Shorten long URLs to unique short codes
-- Redirect short URLs to original URLs
-- Store URL mappings in Redis for fast access
-- RESTful API endpoints
+- Reactive non-blocking architecture using Spring WebFlux
+- Cache-first strategy with fallback to persistent MongoDB
+- Distributed-safe short code generation using Redis atomic counters
+- Metrics and logging integrated for observability
+- Docker-ready configuration
 
-# Should Know and Could Improve
+## Design Considerations and Trade-offs
 
-- Redis as a caching layer for fast URL lookups, Here I have used Base62 encoding to generate short URLs. Using Redis increment to generate seed.
-    - Possible improvements:
-        - When cache restarts and without any AOF(Append Only File) enabled. We will lose the incremented value. So use AOF to persist the incremented value.
-        - As of now, we use RDB snapshot periodically to persist the data. But it is not recommended for production use. since we will have conflict in the incremented value incase
-          of app failures between snapshot-saving intervals.
-- Client side caching, for more frequent requests, we can use client side caching to reduce the load on the server.
+- Redis is used as the caching layer with Base62 encoded short URLs.
+- Redis' atomic counter generates unique short URL keys.
+    - ⚠️ Without AOF (Append Only File) persistence, Redis restarts can reset the counter.
+    - ✅ Use `appendonly yes` in production to prevent counter loss.
+    - ⛔ RDB snapshots alone are not reliable for preserving state between crashes.
+- NOT IMPLEMENTED: Client side caching, for more frequent requests, we can use client side caching to reduce the load on the server.
 
 ## Tech Stack
 
@@ -30,6 +32,7 @@ A simple URL shortener service built with Java, Spring Boot, redis, and mongoDB.
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/CodeOptimusPrime46/url-shortener-service.git cd url-shortener-service
+   cd url-shortener-microservice
    ```
 
 2. **Configure Redis:**
@@ -85,6 +88,7 @@ A simple URL shortener service built with Java, Spring Boot, redis, and mongoDB.
       Get the original URL.
 
 ## Flow
+
 ![Flow.png](Flow.png)
 
 ## License
