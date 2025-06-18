@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+/**
+ * Controller for URL shortening and retrieval operations. Provides endpoints to shorten URLs, redirect to original URLs, and fetch URL mappings. Handles requests in a reactive
+ * manner using Project Reactor.
+ */
 @Slf4j
 @RestController
 @RequestMapping("${spring.api.version:}/")

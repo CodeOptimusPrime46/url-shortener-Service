@@ -6,6 +6,9 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+/**
+ * Generates Base62-encoded short codes using a Redis-backed counter. Each call to {@link #generateShortUrl()} increments a Redis key and encodes the value in Base62.
+ */
 @Component
 @RequiredArgsConstructor
 public class Base62ShortCodeGeneratorImpl implements ShortCodeGenerator {
@@ -15,6 +18,11 @@ public class Base62ShortCodeGeneratorImpl implements ShortCodeGenerator {
 
   private final ReactiveStringRedisTemplate redisTemplate;
 
+  /**
+   * Generates a new short URL code by incrementing a Redis counter and encoding it in Base62.
+   *
+   * @return a {@link Mono} emitting the generated short code
+   */
   @Override
   public Mono<String> generateShortUrl() {
     return redisTemplate.opsForValue()
@@ -22,6 +30,12 @@ public class Base62ShortCodeGeneratorImpl implements ShortCodeGenerator {
         .map(this::encodeBase62);
   }
 
+  /**
+   * Encodes a given number into a Base62 string.
+   *
+   * @param num the number to encode
+   * @return the Base62-encoded string
+   */
   private String encodeBase62(long num) {
     StringBuilder sb = new StringBuilder();
     while (num > 0) {

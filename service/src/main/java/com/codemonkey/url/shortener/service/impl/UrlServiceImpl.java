@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+/**
+ * Service implementation for URL shortening and retrieval.
+ * <p>
+ * Handles creation of short URLs, checks for existing mappings, and interacts with cache and repository layers.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,6 +29,12 @@ public class UrlServiceImpl implements UrlService {
 
   private final ShortCodeGenerator shortCodeGenerator;
 
+  /**
+   * Shortens a given long URL. If the URL already exists, return the existing short URL. Otherwise, generates a new short URL, saves the mapping, and caches it.
+   *
+   * @param request the URL request containing the long URL
+   * @return a Mono emitting the response with the short URL
+   */
   @Override
   public Mono<UrlResponse> shortenUrl(UrlRequest request) {
     return repository.findByLongUrl(request.getLongUrl())
@@ -44,6 +55,12 @@ public class UrlServiceImpl implements UrlService {
         );
   }
 
+  /**
+   * Retrieves the long URL from the cache for a given short URL.
+   *
+   * @param shortUrl the short URL key
+   * @return a Mono emitting the long URL if found
+   */
   @Override
   public Mono<String> getLongUrlFromCache(String shortUrl) {
     return urlCache.get(shortUrl);
