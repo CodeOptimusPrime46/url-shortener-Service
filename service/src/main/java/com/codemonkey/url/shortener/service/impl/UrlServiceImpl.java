@@ -63,6 +63,8 @@ public class UrlServiceImpl implements UrlService {
    */
   @Override
   public Mono<String> getLongUrlFromCache(String shortUrl) {
-    return urlCache.get(shortUrl);
+    return urlCache.get(shortUrl)
+        .switchIfEmpty(repository.findById(shortUrl)
+            .map(UrlMappingCore::getLongUrl));
   }
 }

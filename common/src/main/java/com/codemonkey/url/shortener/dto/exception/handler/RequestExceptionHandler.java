@@ -33,6 +33,7 @@ public class RequestExceptionHandler {
     body.put("message", ex.getMessage());
     body.put("status", HttpStatus.NOT_FOUND.value());
     body.put("url", request.getRequest().getPath().value());
+    log.error("No URL found exception: {}", ex.getMessage(), ex);
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
   }
 }
