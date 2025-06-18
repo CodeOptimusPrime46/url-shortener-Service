@@ -10,6 +10,7 @@ A simple URL shortener service built with Java, Spring Boot, redis, and mongoDB.
 - RESTful API endpoints
 
 # Should Know and Could Improve
+
 - Redis as a caching layer for fast URL lookups, Here I have used Base62 encoding to generate short URLs. Using Redis increment to generate seed.
     - Possible improvements:
         - When cache restarts and without any AOF(Append Only File) enabled. We will lose the incremented value. So use AOF to persist the incremented value.
