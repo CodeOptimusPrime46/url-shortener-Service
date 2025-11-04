@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:8.0.2
+    container_name: redis-cache-url
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: [ "redis-server", "--appendonly", "yes" ]
+
+  mongo:
+    image: mongo:8.0.4
+    container_name: mongo-db-url
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  url-shortener:
+    build:
+      context: ./url-shortener-microservice
+      dockerfile: ./docker/Dockerfile
+    container_name: url-shortener-microservice
+    depends_on:
+      - redis
+      - mongo
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+
+volumes:
+  redis-data:
+  mongo-data:
